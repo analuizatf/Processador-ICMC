@@ -1,0 +1,67 @@
+# Nota de observação
+Tudo isso foi testado em um Ubuntu 11.10  que acabei de instalar...
+
+# Instalando o Simulador:
+1. Instale o GTK: `sudo apt-get install libgtk2.0-dev`
+
+2. Vá na pasta que contem os arquivos do simulador: "simulador_fonte"
+
+3. Para compilar: `sh compila.sh`
+
+4. Copie o executável (simulador) para a pasta que deseja trabalhar
+
+5. Confira se tem direito de execução: 
+	- give the sim file permission to execute:
+	`chmod +x sim`
+
+# Instalando o Montador:
+1. Vá na pasta que contém os arquivos do montador: "montador_fonte"
+
+2. Para compilar: `gcc *.c -o montador`
+
+3. Copie o executável (montador) para a pasta que deseja trabalhar
+
+4. Confira se tem direito de execução: 
+	- `ls -l  montador` --> Mostra as permissoes!
+	- `-rw-r--r-- 1 root root 48147 mai 25 08:42 montador` --> Dá pra ver que não tem permissão de executar
+	- `sudo chmod +x /montador`
+	- `ls -l  montador`
+	- `-rrw-r--rwxr-xr-x 1 root root 48147 mai 25 08:42 /bin/montador`
+	--> rrw-r--rwxr-xr-x
+	Agora incluiu o
+
+
+# Montando um Programa em linguagem Assemby (*.ASM):
+Para montar o codigo: `./montador printaASCII.asm printaASCII.mif`
+
+# Simulando um Programa em linguagem Assemby (*.MIF)
+`./sim printaASCII.mif charmap.mif`
+
+# ALTERNATIVA via GEDIT: E' possivel usar o GEDIT como IDE ...
+1. Caso voce nao possua o gedit faca o seu download e instale-o. http://projects.gnome.org/gedit/
+
+2. Em Editar -> preferencias -> Plugins, habilite o seguinte plugin: External Tools (vem por padrao)
+
+3. Em Ferramentas -> Gerenciar Ferramentas Externas, adicione um novo comando clicando no botao de ’+’, no canto inferior da janela
+
+4. Para montar e executar: Com o novo comando selecionado, nomeie-o como desejar e copie e cole o seguinte script:
+
+```
+#!/bin/bash
+arquivo=$(echo $GEDIT_CURENT_DOCUMENT_NAME | sed 's/\(.*\)\..*/\1/')
+$GEDIT_CURRENT_DOCUMENT_DIR/montador $GEDIT_CURRENT_DOCUMENT_PATH ${arquivo}.mif
+$GEDIT_CURRENT_DOCUMENT_DIR/sim ${arquivo}.mif charmap.mif
+```
+
+5. Defina uma hotkey: Ctrl + F6   por exemplo
+
+6. Nao esqueca de selecionar SAVE CURRENT DOCUMENT, pois a gente sempre esquece de salvar e sai montando o arquivo anterior . . . 
+
+7. Para somente montar (Ctrl + F5):
+
+```
+#!/bin/bash
+arquivo=$(echo $GEDIT_CURENT_DOCUMENT_NAME | sed 's/\(.*\)\..*/\1/')
+$GEDIT_CURRENT_DOCUMENT_DIR/montador $GEDIT_CURRENT_DOCUMENT_PATH ${arquivo}.mif
+```
+
